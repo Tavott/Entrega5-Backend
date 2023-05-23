@@ -1,0 +1,24 @@
+<div>
+    <h2>Todos los Productos</h2>
+    <div class="card m-5 " style="width: 18rem;">
+    {{#each productos}}
+        <div>
+            <h3>{{this.title}}</h3>
+            <p>{{this.description}}</p>
+            <p>{{this.category}}</p>
+            <p>{{this.stock}}</p>
+        </div>
+        <form action="../api/carts/64027d4a017df9efaa98fee8/product/{{this._id}}" method="post">
+            <button type="submit">agregar al carrito</button>
+        </form>
+        </div>
+    {{/each}}
+
+    {{#if hasPrevPage}}
+        <a href="/products?page={{prevPage}}&&limit={{limit}}"><button>Anterior</button></a>
+    {{/if}}
+    <p>{{page}}</p>
+    {{#if hasNextPage}}
+        <a href="/products?page={{nextPage}}&&limit={{limit}}"><button>Siguiente</button></a>
+    {{/if}}
+</div>

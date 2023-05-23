@@ -1,0 +1,22 @@
+[
+  {
+    "title": "compuest",
+    "description": "Compudatora nueva",
+    "price": "1234",
+    "thumbnail": "test123",
+    "code": "121",
+    "stock": "23",
+    "category": "ropa",
+    "id": 1
+  },
+  {
+    "title": "Impresora 3d",
+    "description": "impresora test",
+    "price": "25000",
+    "thumbnail": "imagen",
+    "code": "23",
+    "stock": "23",
+    "category": "Impresora",
+    "id": 2
+  }
+]
