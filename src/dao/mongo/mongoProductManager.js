@@ -1,5 +1,3 @@
-//Funciones para Mongo - Productos
-
 import productsModel from "../../models/products.js"
 
 export class MongoProductManager{

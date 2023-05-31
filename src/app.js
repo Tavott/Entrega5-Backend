@@ -1,7 +1,9 @@
 import express from 'express'
 import handlebars from 'express-handlebars'
 import { Server } from 'socket.io'
+import session from 'express-session'
 
+import loginRouter from './routes/login.js'
 import productsRouter from './routes/products.js'
 import cartsRouter from './routes/carts.js'
 import viewsRouter from './routes/views.js'
@@ -20,6 +22,12 @@ const productManager = new ProductManager
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
+app.use(session({
+    secret: 'secretCoder',
+    resave: true,
+    saveUninitialized: true
+}))
+
 app.use('/public' ,express.static(__dirname+'/public'))
 
 app.engine('handlebars', handlebars.engine())
@@ -27,6 +35,7 @@ app.set('views', __dirname+'/views')
 app.set('view engine', 'handlebars')
 
 app.use('/', viewsRouter)
+app.use('/auth', loginRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 

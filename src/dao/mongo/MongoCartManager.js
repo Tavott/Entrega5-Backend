@@ -1,4 +1,3 @@
-//Funcion para Mongo- Cart
 import cartsModel from "../../models/carts.js"
 
 export class MongoCartManager {

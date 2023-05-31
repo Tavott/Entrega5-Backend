@@ -1,16 +1,14 @@
-import { Router } from "express";
-import { ProductManager } from "../dao/fileSystem/productManager.js"
+import { Router } from "express"
 import { MongoProductManager } from "../dao/mongo/mongoProductManager.js"
 import { MongoCartManager } from "../dao/mongo/MongoCartManager.js"
+import { auth } from "../middleware/auth.js"
 
 const mongoProductManager = new MongoProductManager
 const mongoCartManager = new MongoCartManager
 
 const router = Router()
 
-const productManager = new ProductManager
-
-router.get('/products', async (req, res)=>{
+router.get('/products', auth, async (req, res)=>{
     const {limit = 1 , page = 1, query} = req.query
     let filtro = {}
     query? filtro = {category: query} : filtro = {}
@@ -25,7 +23,8 @@ router.get('/products', async (req, res)=>{
             nextPage,
             page,
             limit,
-            query
+            query,
+            username: req.session.user
         }
         res.render('home', datos)
     } catch (error) {

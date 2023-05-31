@@ -1,9 +1,7 @@
 import { connect } from "mongoose"
+import config from "./env.js"
 
-const URL = 'mongodb+srv://guerreroagustavo:tavo-9614@cluster0.en1m04u.mongodb.net/eComerce?retryWrites=true&w=majority'
-// const URL = 'mongodb+srv://localhost/'
-
-
+const URL = config.mongoUrl
 const dbConnection = async () => {
     return await connect(URL, err => {
         if (err) {
@@ -15,5 +13,3 @@ const dbConnection = async () => {
 }
 
 export default dbConnection
-
-//datos de conexion
