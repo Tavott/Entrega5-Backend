@@ -1,3 +1,4 @@
+import passport from "passport"
 import { Router } from "express"
 import { userVali } from "../middleware/userValidation.js"
 import { MongoUserManager } from "../dao/mongo/MongoUserManager.js"
@@ -7,6 +8,10 @@ const router = Router()
 
 const mongoUserManager = new MongoUserManager
 
+// App ID: 344559
+
+// Client ID: Iv1.f6f9007f8c6ed191
+// secretClient :5e051b4a831bb47a48d69f4226aa79804ac3c638
 router.get('/', (req, res) => {
     res.render('login')
 })
@@ -70,11 +75,37 @@ router.post('/register', userVali, async (req, res)=>{
             res.send({status:'error', message: 'El usuario ya existe'})
         }else{
             await mongoUserManager.addUser(user)
-            res.redirect('http://localhost:8080/auth')
+            res.redirect('http://localhost:8080/auth/login')
         }
     } catch (error) {
         console.log(error);
     }
 })
+
+router.get('/failregister', (req, res)=>{
+    res.send({status: 'error', message: 'fallo el registro'})
+})
+
+router.post('/logout', async (req, res) => {
+    try {
+        req.session.destroy(err => {
+            if(!err) res.redirect('http://localhost:8080/auth/login')
+            else res.send({status:'Logout error', message: err})
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+router.get('/github', passport.authenticate('github',{scope: ['user:email']}))
+
+router.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), async (req, res)=>{
+    console.log('req: ',req.user)
+    req.session.user = req.user.first_name
+    req.session.admin = false
+    req.session.usuario = true
+    res.redirect('http://localhost:8080/products')
+})
+
 
 export default router

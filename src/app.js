@@ -2,15 +2,17 @@ import express from 'express'
 import handlebars from 'express-handlebars'
 import { Server } from 'socket.io'
 import session from 'express-session'
+import passport from 'passport'
 
-import loginRouter from './routes/login.js'
 import productsRouter from './routes/products.js'
 import cartsRouter from './routes/carts.js'
 import viewsRouter from './routes/views.js'
+import loginRouter from './routes/login.js'
 import __dirname from './utils.js'
 import { ProductManager } from './dao/fileSystem/productManager.js'
 import dbConnection from './config/dbConnection.js'
 import chatModel from "./models/chat.js"
+import { initPassport } from './config/passport.js'
 
 const app = express()
 const PORT = 8080
@@ -27,6 +29,10 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
+
+initPassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use('/public' ,express.static(__dirname+'/public'))
 
